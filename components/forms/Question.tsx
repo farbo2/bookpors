@@ -20,11 +20,13 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 const type: any = "create";
 interface Props {
   mongoUserId: string;
 }
 const Question = ({ mongoUserId }: Props) => {
+  const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setisSubmitting] = useState(false);
   const router = useRouter();
@@ -164,6 +166,8 @@ const Question = ({ mongoUserId }: Props) => {
                       "codesample |bold forecolor | alignleft aligncenter " +
                       "alignright alignjustify | bullist numlist ",
                     content_style: "body { font-family:Inter; font-size:16px }",
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                   }}
                 />
               </FormControl>
