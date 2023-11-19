@@ -20,7 +20,7 @@ import { usePathname } from "next/navigation";
 interface Props {
   question: string;
   questionId: string;
-  author: string;
+  authorId: string;
 }
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
