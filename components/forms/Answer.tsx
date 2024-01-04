@@ -30,7 +30,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
-      //this section copied from shadcn doc
+      // this section copied from shadcn doc
 
       answer: "",
     },
