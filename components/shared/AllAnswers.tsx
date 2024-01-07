@@ -13,7 +13,7 @@ interface Props {
   userId: string;
   totalAnswers: number;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 const AllAnswers = async ({
   questionId,
@@ -24,6 +24,8 @@ const AllAnswers = async ({
 }: Props) => {
   const result = await getAnswers({
     questionId,
+    page: page ? +page : 1,
+    sortBy: filter,
   });
   return (
     <div className="mt-11">
@@ -51,7 +53,7 @@ const AllAnswers = async ({
                     <p className="body-semibold text-dark300_light700">
                       {answer.author.name}
                     </p>
-                    <p className="small-regular text-light400_light500 mt-0.5 line-clamp-1 ml-0.5">
+                    <p className="small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1">
                       answered {getTimestamp(answer.createdAt)}
                     </p>
                   </div>
