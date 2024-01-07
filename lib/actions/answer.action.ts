@@ -11,6 +11,7 @@ import Question from "@/database/question.model";
 import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 import { Tag } from "lucide-react";
+import { skip } from "node:test";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -34,7 +35,8 @@ export async function createAnswer(params: CreateAnswerParams) {
 export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDatabase();
-    const { questionId, sortBy } = params;
+    const { questionId, sortBy, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
     let sortOptions = {};
     switch (sortBy) {
       case "highestUpvotes":
@@ -54,8 +56,13 @@ export async function getAnswers(params: GetAnswersParams) {
     }
     const answers = await Answer.find({ question: questionId })
       .populate("author", "_id clerkId name picture")
-      .sort(sortOptions);
-    return { answers };
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const totalAnswers = await Answer.countDocuments({ question: questionId });
+    const isNextAnswer = totalAnswers > skipAmount + answers.length;
+    return { answers, isNextAnswer };
   } catch (error) {
     console.log(error);
     throw error;
