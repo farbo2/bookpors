@@ -10,8 +10,6 @@ import {
 import Question from "@/database/question.model";
 import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
-import { Tag } from "lucide-react";
-import { skip } from "node:test";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
